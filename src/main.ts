@@ -6,5 +6,6 @@ async function bootstrap() {
   const port = process.env.PORT ?? 5000;
   await app.listen(port);
   console.log(`🚀 ${port}번 포트에서 서버 실행 중입니다.`);
+  console.log(`🌐 ${process.env.NODE_ENV} 환경입니다.`);
 }
 bootstrap();
