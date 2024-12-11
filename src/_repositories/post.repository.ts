@@ -99,4 +99,31 @@ export class PostRepository extends Repository<PostEntity> {
       );
     }
   }
+
+  //포스트 수정
+  async updatePost(id: number, postRequestDto: PostRequestDto): Promise<void> {
+    try {
+      await this.update(id, postRequestDto);
+    } catch (error) {
+      throw new HttpException(
+        CustomHttpException['DB_SERVER_ERROR'],
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  //포스트 삭제
+  async deletePost(id: number): Promise<void> {
+    try {
+      // await this.delete(id);
+      await this.update(id, {
+        isDeleted: true,
+      });
+    } catch (error) {
+      throw new HttpException(
+        CustomHttpException['DB_SERVER_ERROR'],
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

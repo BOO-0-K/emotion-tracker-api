@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PostRepository } from 'src/_repositories/post.repository';
 import { PostRequestDto, TodayRequestDto } from './dto/post.request.dto';
 import { PostDetailDto, PostDto, PostIdDto, PostListDto } from './dto/post.response.dto';
+import { PostEntity } from 'src/_entities/post.entity';
+import { CustomHttpException } from 'src/_commons/constants/http-exception.constants';
 
 @Injectable()
 export class PostService {
@@ -38,5 +40,37 @@ export class PostService {
   async getPost(id: number): Promise<PostDetailDto> {
     const post: PostDto = await this.postRepository.findOnePost(id);
     return { post };
+  }
+
+  /**
+   * 포스트 수정
+   * @param userId number
+   * @param id number
+   * @param postRequestDto PostRequestDto
+   * @returns
+   */
+  async updatePost(userId: number, id: number, postRequestDto: PostRequestDto): Promise<void> {
+    //포스트 접근 권한 체크
+    const postAccess: PostEntity = await this.postRepository.checkPostAccess(userId, id);
+    if (!postAccess) {
+      throw new HttpException(CustomHttpException['FORBIDDEN_POST'], HttpStatus.FORBIDDEN);
+    }
+
+    await this.postRepository.updatePost(id, postRequestDto);
+  }
+
+  /**
+   * 포스트 삭제
+   * @param userId number
+   * @param id number
+   */
+  async deletePost(userId: number, id: number): Promise<void> {
+    //포스트 접근 권한 체크
+    const postAccess: PostEntity = await this.postRepository.checkPostAccess(userId, id);
+    if (!postAccess) {
+      throw new HttpException(CustomHttpException['FORBIDDEN_POST'], HttpStatus.FORBIDDEN);
+    }
+
+    await this.postRepository.deletePost(id);
   }
 }

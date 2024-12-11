@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -14,11 +16,13 @@ import { Token } from 'src/_commons/auth/token.decorator';
 import { PostRequestDto, TodayRequestDto } from './dto/post.request.dto';
 import {
   PostAddResponseDto,
+  PostDeleteResponseDto,
   PostDetailDto,
   PostDetailResponseDto,
   PostIdDto,
   PostListDto,
   PostListResponseDto,
+  PostUpdateResponseDto,
 } from './dto/post.response.dto';
 import { CustomHttpSuccess } from 'src/_commons/constants/http-success.constants';
 import { UserEntity } from 'src/_entities/user.entity';
@@ -68,7 +72,7 @@ export class PostController {
 
   /**
    * 포스트 상세
-   * @param id number
+   * @param id string
    * @returns PostDetailResponseDto
    */
   @Get(':id')
@@ -79,6 +83,46 @@ export class PostController {
       statusCode: 200,
       message: CustomHttpSuccess['GET_POST_SUCCESS'],
       data: post,
+    };
+  }
+
+  /**
+   * 포스트 수정
+   * @param user UserEntity
+   * @param id string
+   * @param postRequestDto PostRequestDto
+   * @returns PostUpdateResponseDto
+   */
+  @Patch(':id')
+  @UseGuards(AuthGuard())
+  async updatePost(
+    @Token() user: UserEntity,
+    @Param('id') id: string,
+    @Body(ValidationPipe) postRequestDto: PostRequestDto,
+  ): Promise<PostUpdateResponseDto> {
+    await this.postService.updatePost(+user.id, +id, postRequestDto);
+    return {
+      statusCode: 200,
+      message: CustomHttpSuccess['UPDATE_POST_SUCCESS'],
+    };
+  }
+
+  /**
+   * 포스트 삭제
+   * @param user UserEntity
+   * @param id string
+   * @returns PostDeleteResponseDto
+   */
+  @Delete(':id')
+  @UseGuards(AuthGuard())
+  async deletePost(
+    @Token() user: UserEntity,
+    @Param('id') id: string,
+  ): Promise<PostDeleteResponseDto> {
+    await this.postService.deletePost(+user.id, +id);
+    return {
+      statusCode: 200,
+      message: CustomHttpSuccess['DELETE_POST_SUCCESS'],
     };
   }
 }
