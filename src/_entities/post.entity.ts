@@ -26,12 +26,6 @@ export class PostEntity extends BaseEntity {
   title: string;
 
   @Column({
-    nullable: true,
-    type: 'text',
-  })
-  description: string;
-
-  @Column({
     type: 'date',
   })
   today: Date;

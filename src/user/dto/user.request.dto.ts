@@ -1,11 +1,4 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsString,
-  Matches,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
 //회원가입 Request
 export class SignupRequestDto {
