@@ -27,8 +27,9 @@ export class PostService {
    * @returns PostListDto
    */
   async getPosts(todayRequestDto: TodayRequestDto): Promise<PostListDto> {
-    const today: string = todayRequestDto.today;
-    const posts: Array<PostDto> = await this.postRepository.findAllPosts(today);
+    const startDate: string = todayRequestDto.startDate;
+    const endDate: string = todayRequestDto.endDate;
+    const posts: Array<PostDto> = await this.postRepository.findAllPosts(startDate, endDate);
     return { posts };
   }
 

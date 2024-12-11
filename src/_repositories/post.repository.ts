@@ -3,7 +3,7 @@ import { CustomHttpException } from 'src/_commons/constants/http-exception.const
 import { PostEntity } from 'src/_entities/post.entity';
 import { PostRequestDto } from 'src/post/dto/post.request.dto';
 import { PostDto } from 'src/post/dto/post.response.dto';
-import { DataSource, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class PostRepository extends Repository<PostEntity> {
@@ -25,13 +25,15 @@ export class PostRepository extends Repository<PostEntity> {
   }
 
   //모든 포스트 리스트 조회
-  async findAllPosts(today: string): Promise<Array<PostDto>> {
+  async findAllPosts(startDate: string, endDate: string): Promise<Array<PostDto>> {
     try {
-      const todayDate = new Date(today);
-      todayDate.setHours(0, 0, 0, 0);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
 
       const posts = await this.find({
-        where: { today: todayDate, isDeleted: false },
+        where: { isDeleted: false, today: Between(start, end) },
         relations: ['user'],
         order: {
           createdAt: 'DESC',

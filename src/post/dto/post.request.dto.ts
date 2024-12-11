@@ -24,5 +24,9 @@ export class PostRequestDto {
 export class TodayRequestDto {
   @IsDateString()
   @IsNotEmpty()
-  today: string; //오늘 날짜
+  startDate: string; //시작 날짜
+
+  @IsDateString()
+  @IsNotEmpty()
+  endDate: string; //종료 날짜
 }
