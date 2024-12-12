@@ -67,7 +67,7 @@ export class PostRepository extends Repository<PostEntity> {
   async findOnePost(id: number): Promise<PostDto> {
     try {
       const post: PostEntity = await this.findOne({
-        where: { id },
+        where: { id, isDeleted: false },
         relations: ['user'],
       });
       return {
