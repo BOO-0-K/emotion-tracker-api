@@ -19,6 +19,7 @@ export class SigninResponseDto {
 
 //내 정보 보기
 export class MeDto {
+  readonly id: number;
   readonly username: string;
   readonly isActive: boolean;
 }

@@ -25,10 +25,7 @@ export class UserService {
     //사용자명으로 회원 찾기
     const user: UserEntity = await this.userRepository.findByUsername(username);
     if (user) {
-      throw new HttpException(
-        CustomHttpException['CONFLICT_USERNAME'],
-        HttpStatus.CONFLICT,
-      ); //사용자명 중복
+      throw new HttpException(CustomHttpException['CONFLICT_USERNAME'], HttpStatus.CONFLICT); //사용자명 중복
     }
 
     //회원 생성
@@ -54,17 +51,11 @@ export class UserService {
     //사용자명으로 회원 찾기
     const user: UserEntity = await this.userRepository.findByUsername(username);
     if (!user) {
-      throw new HttpException(
-        CustomHttpException['UNAUTHORIZED_ACCOUNT'],
-        HttpStatus.UNAUTHORIZED,
-      ); //사용자명이 없는 경우
+      throw new HttpException(CustomHttpException['UNAUTHORIZED_ACCOUNT'], HttpStatus.UNAUTHORIZED); //사용자명이 없는 경우
     }
 
     if (!(await bcrypt.compare(password, user['password']))) {
-      throw new HttpException(
-        CustomHttpException['UNAUTHORIZED_ACCOUNT'],
-        HttpStatus.UNAUTHORIZED,
-      ); //비밀번호가 다른 경우
+      throw new HttpException(CustomHttpException['UNAUTHORIZED_ACCOUNT'], HttpStatus.UNAUTHORIZED); //비밀번호가 다른 경우
     }
 
     //JWT 토큰 생성
@@ -80,10 +71,11 @@ export class UserService {
    * @returns MeDto
    */
   async getMyInfo(user: UserEntity): Promise<MeDto> {
+    const id: number = user.id;
     const username: string = user.username;
     const isActive: boolean = user.isActive;
 
-    return { username, isActive };
+    return { id, username, isActive };
   }
 
   /**

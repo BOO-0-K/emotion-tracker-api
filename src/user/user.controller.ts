@@ -9,11 +9,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import {
-  MeRequestDto,
-  SigninRequestDto,
-  SignupRequestDto,
-} from './dto/user.request.dto';
+import { MeRequestDto, SigninRequestDto, SignupRequestDto } from './dto/user.request.dto';
 import {
   AccessTokenDto,
   MeResponseDto,
@@ -39,8 +35,7 @@ export class UserController {
   async signup(
     @Body(ValidationPipe) signupRequestDto: SignupRequestDto,
   ): Promise<SignupResponseDto> {
-    const accessToken: AccessTokenDto =
-      await this.userService.signup(signupRequestDto);
+    const accessToken: AccessTokenDto = await this.userService.signup(signupRequestDto);
 
     return {
       statusCode: 201,
@@ -59,8 +54,7 @@ export class UserController {
   async signin(
     @Body(ValidationPipe) signinRequestDto: SigninRequestDto,
   ): Promise<SigninResponseDto> {
-    const accessToken: AccessTokenDto =
-      await this.userService.signin(signinRequestDto);
+    const accessToken: AccessTokenDto = await this.userService.signin(signinRequestDto);
 
     return {
       statusCode: 200,
