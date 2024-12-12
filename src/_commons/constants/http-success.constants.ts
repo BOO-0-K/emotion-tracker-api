@@ -8,4 +8,8 @@ export const CustomHttpSuccess = {
   GET_POST_SUCCESS: '포스트 상세 성공',
   UPDATE_POST_SUCCESS: '포스트 수정 성공',
   DELETE_POST_SUCCESS: '포스트 삭제 성공',
+  ADD_COMMENT_SUCCESS: '댓글 추가 성공',
+  GET_COMMENTS_SUCCESS: '댓글 리스트 성공',
+  UPDATE_COMMENT_SUCCESS: '댓글 수정 성공',
+  DELETE_COMMENT_SUCCESS: '댓글 삭제 성공',
 };

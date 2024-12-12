@@ -9,6 +9,11 @@ export const CustomHttpException = {
     code: 'FORBIDDEN_POST',
     message: '해당 포스트의 접근 권한이 없습니다.',
   },
+  FORBIDDEN_COMMENT: {
+    statusCode: 403,
+    code: 'FORBIDDEN_COMMENT',
+    message: '해당 댓글의 접근 권한이 없습니다.',
+  },
   CONFLICT_USERNAME: {
     statusCode: 409,
     code: 'CONFLICT_USERNAME',
