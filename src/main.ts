@@ -6,7 +6,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT ?? 5000;
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.enableCors();
+  app.enableCors({
+    origin: [process.env.ENABLE_CORS_URL],
+    credentials: true,
+    exposedHeaders: ['Authorization'],
+  });
 
   await app.listen(port);
   console.log(`🚀 ${port}번 포트에서 서버 실행 중입니다.`);
