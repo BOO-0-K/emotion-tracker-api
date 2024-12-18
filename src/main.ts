@@ -7,7 +7,7 @@ async function bootstrap() {
   const port = process.env.PORT ?? 5000;
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
-    origin: [process.env.ENABLE_CORS_URL],
+    origin: [process.env.ENABLE_CORS_URL_1, process.env.ENABLE_CORS_URL_2],
     credentials: true,
     exposedHeaders: ['Authorization'],
   });
